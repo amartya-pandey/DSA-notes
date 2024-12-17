@@ -59,7 +59,7 @@ Factorial of 5 is: 120
 ### Concept:
 The power of a number `a` raised to `b` is:
 \[
-a^b = a \times a^{b-1} \quad (b > 0)
+a^b = a * a^{b-1} for all (b > 0)
 \]
 Base case: `a^0 = 1`.
 
