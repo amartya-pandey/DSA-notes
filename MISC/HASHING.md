@@ -1,4 +1,3 @@
-
 # Hashing Notes
 
 ## 1. **Introduction to Hashing**
@@ -19,21 +18,42 @@ Given an array of integers, determine the frequency of each number and answer qu
 Use an array or map to store the frequency of each number.
 
 ### Example 1: Hashing with Arrays
-```python
-# Array Hashing Example
-arr = [1, 2, 1, 3, 2]
-max_value = max(arr)  # Find the maximum number in the array
-hash_array = [0] * (max_value + 1)  # Create a hash array
+#### C++ Code:
+```cpp
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
 
-# Precompute frequencies
-for num in arr:
-    hash_array[num] += 1
+int main() {
+    vector<int> arr = {1, 2, 1, 3, 2};
+    int max_value = *max_element(arr.begin(), arr.end()); // Find max value
+    vector<int> hash_array(max_value + 1, 0); // Initialize hash array
 
-# Queries
-queries = [1, 4, 2, 3]
-for query in queries:
-    print(f"{query} appears {hash_array[query]} times.")
+    // Precompute frequencies
+    for (int num : arr) {
+        hash_array[num]++;
+    }
+
+    // Queries
+    vector<int> queries = {1, 4, 2, 3};
+    for (int query : queries) {
+        cout << query << " appears " << hash_array[query] << " times.\n";
+    }
+
+    return 0;
+}
 ```
+#### Explanation:
+1. **Find Maximum Value:** The `max_element` function determines the maximum value in the array. This is essential to size the hash array appropriately.
+2. **Initialize Hash Array:** A vector of size `max_value + 1` is created to ensure it can accommodate all numbers from 0 to `max_value`.
+3. **Frequency Calculation:** Each number in the input array increments its corresponding index in the hash array.
+4. **Querying Frequencies:** For each query, the program retrieves the precomputed frequency from the hash array in constant time.
+
+#### Key Points:
+- **`max_element`:** Finds the maximum value in the array to determine hash array size.
+- **Hash Array:** Initialized with zeros to store frequencies.
+- **Queries:** Frequencies are retrieved in constant time.
 
 **Output:**
 ```
@@ -46,20 +66,40 @@ for query in queries:
 ---
 
 ### Example 2: Hashing with Maps
-```python
-# Hash Map Example
-arr = [1, 2, 1, 3, 2]
-hash_map = {}
+#### C++ Code:
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <vector>
+using namespace std;
 
-# Precompute frequencies
-for num in arr:
-    hash_map[num] = hash_map.get(num, 0) + 1
+int main() {
+    vector<int> arr = {1, 2, 1, 3, 2};
+    unordered_map<int, int> hash_map;
 
-# Queries
-queries = [1, 4, 2, 3]
-for query in queries:
-    print(f"{query} appears {hash_map.get(query, 0)} times.")
+    // Precompute frequencies
+    for (int num : arr) {
+        hash_map[num]++;
+    }
+
+    // Queries
+    vector<int> queries = {1, 4, 2, 3};
+    for (int query : queries) {
+        cout << query << " appears " << hash_map[query] << " times.\n";
+    }
+
+    return 0;
+}
 ```
+#### Explanation:
+1. **Initialize Hash Map:** An unordered map is used to dynamically store the frequency of each number.
+2. **Frequency Calculation:** For each number in the input array, the value associated with the key in the hash map is incremented.
+3. **Querying Frequencies:** Each query retrieves the corresponding frequency from the hash map. If a key is not present, its value defaults to 0.
+
+#### Key Points:
+- **`unordered_map`:** Efficient hash map implementation in C++.
+- **Dynamic Key Addition:** Frequencies are stored directly during traversal.
+- **Query Efficiency:** Average \(O(1)\) retrieval for hash maps.
 
 **Output:**
 ```
@@ -79,22 +119,42 @@ Given a string, find the frequency of characters and answer queries about their 
 Use an array or hash map. For lowercase letters, an array of size 26 is sufficient. Map `'a'` to index 0, `'b'` to 1, and so on.
 
 ### Example 1: Character Hashing with Arrays
-```python
-# Character Hashing Example
-string = "abac"
-hash_array = [0] * 26  # For lowercase letters
+#### C++ Code:
+```cpp
+#include <iostream>
+#include <string>
+#include <vector>
+using namespace std;
 
-# Precompute frequencies
-for char in string:
-    index = ord(char) - ord('a')  # Map 'a' to 0, 'b' to 1, ..., 'z' to 25
-    hash_array[index] += 1
+int main() {
+    string str = "abac";
+    vector<int> hash_array(26, 0); // For lowercase letters
 
-# Queries
-queries = ['a', 'b', 'c', 'z']
-for query in queries:
-    index = ord(query) - ord('a')
-    print(f"{query} appears {hash_array[index]} times.")
+    // Precompute frequencies
+    for (char c : str) {
+        int index = c - 'a'; // Map 'a' to 0, 'b' to 1, ..., 'z' to 25
+        hash_array[index]++;
+    }
+
+    // Queries
+    vector<char> queries = {'a', 'b', 'c', 'z'};
+    for (char query : queries) {
+        int index = query - 'a';
+        cout << query << " appears " << hash_array[index] << " times.\n";
+    }
+
+    return 0;
+}
 ```
+#### Explanation:
+1. **Mapping Characters to Indices:** Each character is mapped to an index in the hash array using its ASCII value minus the ASCII value of `'a'`.
+2. **Precompute Frequencies:** Each occurrence of a character increments the corresponding index in the hash array.
+3. **Query Frequencies:** For each query, the frequency is retrieved from the hash array in constant time.
+
+#### Key Points:
+- **`c - 'a'`:** Maps each character to an array index.
+- **Hash Array Size:** Fixed at 26 for lowercase English letters.
+- **Efficient Retrieval:** Frequencies accessed in \(O(1)\).
 
 **Output:**
 ```
@@ -107,20 +167,41 @@ z appears 0 times.
 ---
 
 ### Example 2: Character Hashing with Maps
-```python
-# Character Hashing Using Hash Map
-string = "abac"
-hash_map = {}
+#### C++ Code:
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <vector>
+using namespace std;
 
-# Precompute frequencies
-for char in string:
-    hash_map[char] = hash_map.get(char, 0) + 1
+int main() {
+    string str = "abac";
+    unordered_map<char, int> hash_map;
 
-# Queries
-queries = ['a', 'b', 'c', 'z']
-for query in queries:
-    print(f"{query} appears {hash_map.get(query, 0)} times.")
+    // Precompute frequencies
+    for (char c : str) {
+        hash_map[c]++;
+    }
+
+    // Queries
+    vector<char> queries = {'a', 'b', 'c', 'z'};
+    for (char query : queries) {
+        cout << query << " appears " << hash_map[query] << " times.\n";
+    }
+
+    return 0;
+}
 ```
+#### Explanation:
+1. **Dynamic Key Storage:** Each character is dynamically added to the hash map as a key, with its frequency as the value.
+2. **Precompute Frequencies:** Each occurrence of a character increments its corresponding value in the hash map.
+3. **Query Frequencies:** Queries check the presence of a character and return its frequency. If the character is absent, the frequency defaults to 0.
+
+#### Key Points:
+- **`unordered_map`:** Handles dynamic character frequency storage.
+- **No Fixed Size:** Works for both lowercase and uppercase letters or special characters.
+- **General Applicability:** Suitable for more complex scenarios.
 
 **Output:**
 ```
@@ -158,8 +239,8 @@ Characters can be mapped to integers using their ASCII values:
 
 #### Formula:
 To map a character to its corresponding array index:
-```
-index = ord(character) - ord('a')
+```cpp
+int index = character - 'a';
 ```
 
 ---
@@ -176,20 +257,41 @@ index = ord(character) - ord('a')
 Hash maps are versatile and handle large datasets or complex keys like strings.
 
 ### Example: Map for String Hashing
-```python
-# String Hashing Using Map
-string = "aabcc"
-hash_map = {}
+#### C++ Code:
+```cpp
+#include <iostream>
+#include <unordered_map>
+#include <string>
+#include <vector>
+using namespace std;
 
-# Precompute frequencies
-for char in string:
-    hash_map[char] = hash_map.get(char, 0) + 1
+int main() {
+    string str = "aabcc";
+    unordered_map<char, int> hash_map;
 
-# Queries
-queries = ['a', 'b', 'c', 'd']
-for query in queries:
-    print(f"{query} appears {hash_map.get(query, 0)} times.")
+    // Precompute frequencies
+    for (char c : str) {
+        hash_map[c]++;
+    }
+
+    // Queries
+    vector<char> queries = {'a', 'b', 'c', 'd'};
+    for (char query : queries) {
+        cout << query << " appears " << hash_map[query] << " times.\n";
+    }
+
+    return 0;
+}
 ```
+#### Explanation:
+1. **Dynamic Key Handling:** Each character is added to the hash map with its frequency as a value.
+2. **Efficient Precomputation:** Each character incrementally updates its frequency during traversal.
+3. **Flexible Querying:** Allows queries for any character, even if it does not exist in the input string (defaulting to 0).
+
+#### Key Points:
+- **Dynamic Key Handling:** Works with strings, characters, and numbers.
+- **Scalability:** Can handle large datasets efficiently.
+- **Flexibility:** Supports custom key types.
 
 **Output:**
 ```
@@ -207,3 +309,4 @@ d appears 0 times.
 3. **Applicability:** Used in caching, searching, and data deduplication.
 
 ---
+
